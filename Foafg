@@ -1,0 +1,589 @@
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 🛡️ ULTIMATE COMPLETE PROTECTION BYPASS v9.0 — @Nixnaymar
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 60+ طبقة حماية | بدون نقص | جاهز للتشغيل
+-- ═══════════════════════════════════════════════════════════════════════════
+
+_G._WHA_BYPASS_ACTIVE = true
+_G._MOD_EXPIRED = false
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [1] المتغيرات الأساسية
+-- ═══════════════════════════════════════════════════════════════════════════
+local function nop() end
+local function retTrue() return true end
+local function retFalse() return false end
+local function retZero() return 0 end
+local function retEmpty() return {} end
+local function retEmptyString() return "" end
+local function retNil() return nil end
+local function retOne() return 1 end
+local function retHundred() return 100 end
+
+local _slua = rawget(_G, "slua")
+local function IsValid(obj)
+    if not obj then return false end
+    if _slua and _slua.isValid then
+        local ok, v = pcall(_slua.isValid, obj)
+        if not ok or not v then return false end
+    end
+    return true
+end
+
+local function safeRequire(path)
+    local ok, mod = pcall(require, path)
+    return ok and mod or nil
+end
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [2] ACE (Anti-Cheat Expert) — 30 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local ace = _G.ace or package.loaded["libace.so"] or package.loaded["ace"]
+    if not ace then return end
+    local funcs = {
+        "ReportData","ReportViolation","KickPlayer","BanPlayer","SendReport",
+        "ReportCheat","ReportHack","ReportMod","ReportInject","ReportHook",
+        "ReportPatch","ReportTamper","ReportCorrupt","ReportInvalid","ReportSpoof",
+        "ReportFake","ReportClone","ReportDuplicate","ReportConflict","ReportOverlap",
+        "ReportMismatch","ReportInconsistent","ReportUnexpected","ReportUnknown",
+        "CheckIntegrity","VerifyProcess","CheckModule","ValidateClient","ScanMemory",
+        "CheckDebugger","CheckEmulator","CheckRoot","CollectInfo","Init","Start",
+        "Tick","Update","Send"
+    }
+    for _, f in ipairs(funcs) do
+        if ace[f] then
+            if f:find("Check") or f:find("Verify") or f:find("Validate") then
+                ace[f] = retTrue
+            elseif f:find("Scan") or f:find("Debug") or f:find("Emulator") or f:find("Root") then
+                ace[f] = retFalse
+            elseif f:find("Info") or f:find("Data") then
+                ace[f] = retEmpty
+            else
+                ace[f] = nop
+            end
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [3] TSS SDK — 60 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local tss = _G.TssSdk or package.loaded["TssSdk"] or package.loaded["TssSDK"]
+    if not tss then return end
+    local funcs = {
+        "OnRecvData","SendReportInfo","ReportException","ReportData","UploadLog",
+        "SendAntiData","ReportGameStart","ReportGameEnd","ReportCrash","ReportViolation",
+        "ReportSuspicious","ReportBan","ReportKick","ReportWarning","ReportInfo",
+        "ReportDebug","ReportError","ReportFatal","ReportMemory","ReportProcess",
+        "ReportModule","ReportThread","ReportFile","ReportNetwork","ReportDevice",
+        "ReportSystem","ReportGame","ReportUser","ReportAccount","ReportSession",
+        "ReportPerformance","ReportBattery","ReportTemperature","ReportFPS","ReportPing",
+        "ReportPacket","ReportCheat","ReportHack","ReportMod","ReportInject",
+        "ReportDebugger","ReportEmulator","ReportRoot","ReportJailbreak","ReportVM",
+        "ReportHook","ReportPatch","ReportTamper","ReportCorrupt","ReportInvalid",
+        "ReportSpoof","ReportFake","ReportClone","ReportDuplicate","ReportConflict",
+        "ReportOverlap","ReportMismatch","ReportInconsistent","ReportUnexpected","ReportUnknown",
+        "Init","Start","Stop","Send"
+    }
+    for _, f in ipairs(funcs) do
+        if tss[f] then tss[f] = nop end
+    end
+    tss.ScanMemory = retTrue
+    tss.IsEmulator = retFalse
+    tss.GetTssSdkReportInfo = retEmptyString
+    tss.CheckIntegrity = retTrue
+    tss.VerifySignature = retTrue
+    tss.CollectEvidence = retEmpty
+    tss.CheckEnvironment = retTrue
+    tss.VerifyProcess = retTrue
+    tss.GetDeviceInfo = retEmpty
+    tss.GetFingerprint = retEmptyString
+    tss.GetClientID = retEmptyString
+    tss.GetFileMD5 = retEmptyString
+    tss.VerifyFileSignature = retTrue
+    tss.GetModuleHash = retEmptyString
+    tss.VerifyModule = retTrue
+    tss.ScanProcess = retTrue
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [4] HiggsBoson Component — 40 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local hb = package.loaded["GameLua.Mod.BaseMod.Common.Security.HiggsBosonComponent"]
+    if not hb then return end
+    hb.bMHActive = false
+    hb.bCallPreReplication = false
+    hb.bIsEnable = false
+    hb.bSkipAlertServer = true
+    hb.bReportNosChat = false
+    local funcs = {
+        "ControlMHActive","Tick","OnTick","ReceiveTick","MHActiveLogic",
+        "TriggerAvatarCheck","StartAvatarCheck","ReportItemID","OnReportItemID",
+        "ReceiveAnyDamage","OnWeaponHitRecord","ShowSecurityAlert","StaticShowSecurityAlertInDev",
+        "SendHisarData","OnLogin","ValidateSecurityData","CheckMemoryIntegrity",
+        "ReportAbnormalMemory","OnMemoryScanComplete","SendDetectionResult","TriggerClientScan",
+        "SendAntiDataFlow","SendHitFireBtnFlow","SkipAlertServer","CheckWeaponIntegrity",
+        "CheckAvatarIntegrity","CheckBulletIntegrity","OnGameModeType","OnBattleResult",
+        "RPC_Client_ShowSecurityAlertWindow","RPC_Server_TellServerName",
+        "RecordStrategyTimestampInReplay","SetClientAlertWindowEnabled","_ReportChatRobot",
+        "_ClientShowSecurityAlertWindow","ShowABCD","ReceiveBeginPlay","_ProcessReportChatRobotQueue",
+        "LuaNotifySecurityAbnormalJump","DisableHiggsBoson","CheckMHActive","ReportViolation",
+        "ProcessSecurityEvent","ValidatePlayer"
+    }
+    for _, f in ipairs(funcs) do
+        if hb[f] then
+            if f:find("Check") or f:find("Validate") then
+                hb[f] = retTrue
+            elseif f:find("Is") or f:find("IsCharacter") then
+                hb[f] = retFalse
+            elseif f:find("Get") then
+                hb[f] = retEmpty
+            else
+                hb[f] = nop
+            end
+        end
+    end
+    hb.GetNetAvatarItemIDs = retEmpty
+    hb.GetCurWeaponSkinID = retZero
+    hb.IsMHActive = retFalse
+    hb.IsCharacterOwnerWerewolf = retFalse
+    hb.IsCharacterOwnerButcher = retFalse
+    if hb.BlackList then
+        for k in pairs(hb.BlackList) do hb.BlackList[k] = nil end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [5] HawkEye Patrol — 30 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local he = package.loaded["GameLua.Mod.BaseMod.Client.Security.ClientHawkEyePatrolSubsystem"]
+    if he then
+        local funcs = {
+            "_OnHawkSync","_OnHawkReportSuccess","_OnRecvInspectorBroadcastCount",
+            "ReportCheat","RequestImprison","SendReportTLog","_CollectBeWatchedPlayerInfo",
+            "_OnPlayerKilledOtherPlayer","_StartFrameUIRefreshTimer","ExitWatching",
+            "WantMatchNextPatrol","InitHawkEyePatrolSubsystem","_StartHideUITimer",
+            "_StartShowDistanceUITimer","_StartCloseBattleEndedTipsTimer",
+            "_StartBattleTimeUsageTimer","_StartQuitVoiceRoomTimer","_StartExitGameTimer",
+            "_CloseExitGameTimer","_CreateOvertimerTimerForNextPatrol","ClearNextPatrolOvertimeTimer",
+            "ReturnLobbyAndOpenH5","ForceNeverCloseBattleEndedTips","TryShowReportedTips",
+            "ShowWatchEndedTips","OnShowWatchEndedTips","_MarkHasReported","OnRelease",
+            "ServerRPC_HawkReportCheat","RequestFlagPlayer","SendFlagReport"
+        }
+        for _, f in ipairs(funcs) do
+            if he[f] then he[f] = nop end
+        end
+        he.IsDuringHawkEyePatrol = retFalse
+        he.HasReported = retTrue
+        he.GetBeWatchedPlayerInfo = retEmpty
+        he.CheckShowReportedTips = retFalse
+        he.HasShownWatchEndedTips = retTrue
+        he.GetForbidNextPatrolRemainingTimeInSeconds = retZero
+        he.GetUsedDailyTimeInSeconds = retZero
+        he.GetInspectorBroadcastCount = function() return -1 end
+        he.GetMaxInspectorBroadcastCount = retZero
+        he.CanInspectorBroadcast = retFalse
+        he.IsCharacterLocationShouldDraw = retFalse
+    end
+    local ds = package.loaded["GameLua.Mod.BaseMod.DS.Security.DSHawkEyePatrolSubsystem"]
+    if ds then
+        ds.OnInit = nop
+        ds.ReportCheat = nop
+        ds.RequestImprison = nop
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [6] CoronaLab — 20 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    if _G.CoronaLab then
+        for k, v in pairs(_G.CoronaLab) do
+            if type(v) == "function" then _G.CoronaLab[k] = nop end
+        end
+    end
+    local sub = safeRequire("GameLua.GameCore.Module.Subsystem.SubsystemMgr")
+    if sub then
+        local cl = sub:Get("CoronaLabSubsystem")
+        if cl then
+            for k, v in pairs(cl) do
+                if type(v) == "function" and (
+                    k:find("Report") or k:find("Send") or k:find("Collect") or
+                    k:find("Telemetry") or k:find("Upload") or k:find("Check") or
+                    k:find("Verify") or k:find("Validate")
+                ) then cl[k] = nop end
+            end
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [7] Gokuba — 15 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local g = package.loaded["GameLua.Mod.BaseMod.Client.Security.Gokuba"]
+    if g then
+        g.ForwardFeature = function() return {0,0,0,0,0} end
+        g.InitGokubaLogic = nop
+        if g.TimerHandle then
+            local ticker = safeRequire("common.time_ticker")
+            if ticker then ticker.RemoveTimer(g.TimerHandle) end
+            g.TimerHandle = nil
+        end
+        for k, v in pairs(g) do
+            if type(v) == "function" and (
+                k:find("Init") or k:find("Start") or k:find("Check") or
+                k:find("Scan") or k:find("Report") or k:find("Forward") or
+                k:find("Detect") or k:find("Collect") or k:find("Send") or
+                k:find("Upload") or k:find("Verify") or k:find("Analyze") or
+                k:find("Process") or k:find("Handle") or k:find("Feature")
+            ) then g[k] = nop end
+        end
+    end
+    if _G.GokubaLogic then
+        _G.GokubaLogic.ForwardFeature = retEmpty
+        _G.GokubaLogic.InitGokubaLogic = nop
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [8] SwiftHawk — 10 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    for _, f in ipairs({"SwiftHawk","ClientSwiftHawk","ClientSwiftHawkWithParams","SendSwiftHawkData","SwiftHawkReport"}) do
+        if _G[f] then _G[f] = nop end
+        if _G.GameplayCallbacks and _G.GameplayCallbacks[f] then _G.GameplayCallbacks[f] = nop end
+    end
+    local sh = package.loaded["GameLua.Mod.BaseMod.Client.Security.SwiftHawkSubsystem"]
+    if sh then
+        sh.ReportData = nop
+        sh.SendReport = nop
+        sh.CollectTelemetry = nop
+        sh.InitSubsystem = nop
+        sh.StartCollection = nop
+        sh.StopCollection = nop
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [9] Shoot Verification — 10 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local sv = safeRequire("GameLua.Dev.Subsystem.ShootVerifySubSystemClient")
+    if sv then
+        sv.OnShootVerifyFailed = nop
+        sv.SendVerifyData = nop
+        sv.ReportBulletHit = nop
+        sv.UploadHitInfo = nop
+        sv.VerifyShot = retTrue
+        sv.CheckShoot = retTrue
+        sv.ValidateShoot = retTrue
+        sv.IsShootValid = retTrue
+        sv.ReportInvalidShoot = nop
+        sv.ResetShootData = nop
+    end
+    if _G.BulletHitInfoUploadData then
+        _G.BulletHitInfoUploadData.Report = nop
+        _G.BulletHitInfoUploadData.Send = nop
+        _G.BulletHitInfoUploadData.Upload = nop
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [10] Network Packet Block — 80 بكت
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    if NetUtil and NetUtil.SendPacket then
+        local orig = NetUtil.SendPacket
+        local blocked = {
+            ["ReportAttackFlow"]=1,["ReportSecAttackFlow"]=1,["ReportHurtFlow"]=1,
+            ["ReportFireArms"]=1,["ReportVerifyInfoFlow"]=1,["ReportMrpcsFlow"]=1,
+            ["ReportPlayerBehavior"]=1,["ReportTeammatHurt"]=1,["ReportMisKillByTeammate"]=1,
+            ["ReportForbitPick"]=1,["ReportPlayerMoveRoute"]=1,["ReportPlayerPosition"]=1,
+            ["ReportVehicleMoveFlow"]=1,["ReportSecTgameMovingFlow"]=1,["ReportParachuteData"]=1,
+            ["ReportEquipmentFlow"]=1,["ReportAimFlow"]=1,["ReportHitFlow"]=1,
+            ["ReportCircleFlow"]=1,["ReportPlayersPing"]=1,["ReportPlayerIP"]=1,
+            ["ReportPlayerFramePingRecord"]=1,["ReportDSNetSaturation"]=1,
+            ["ReportNetContinuousSaturate"]=1,["ReportDSNetRate"]=1,
+            ["ReportPlayerKillFlow"]=1,["ReportSecMrpcsFlow"]=1,
+            ["ReportSecurityViolation"]=1,["ReportIntegrityCheck"]=1,
+            ["ReportSignatureVerify"]=1,["ReportAntiCheat"]=1,["ReportAC"]=1,
+            ["ReportSuspicious"]=1,["ReportAbnormal"]=1,["ReportMagicBullet"]=1,
+            ["ReportDamage"]=1,["ReportHitbox"]=1,["ReportProjectile"]=1,
+            ["ReportBullet"]=1,["ReportShoot"]=1,["ReportVerification"]=1,
+            ["ReportSkin"]=1,["ReportAvatar"]=1,["ReportWeapon"]=1,
+            ["ReportVehicle"]=1,["ReportBan"]=1,["ReportKick"]=1,
+            ["ReportFlag"]=1,["ReportWarning"]=1,["ReportAlert"]=1,
+            ["ReportNotify"]=1,["ReportException"]=1,["ReportError"]=1,
+            ["ReportCrash"]=1,["ReportDump"]=1,["ReportMemory"]=1,
+            ["ReportStack"]=1,["ReportProfiler"]=1,["ReportPerformance"]=1,
+            ["ReportStats"]=1,["ReportGameGuardian"]=1,["ReportCheatEngine"]=1,
+            ["ReportRoot"]=1,["ReportJailbreak"]=1,["ReportEmulator"]=1,
+            ["ReportTamper"]=1,["ReportSpeedHack"]=1,["ReportESP"]=1,
+            ["ReportWallhack"]=1,["ReportNoRecoil"]=1,["ReportPlayerReport"]=1,
+            ["on_tss_sdk_anti_data"]=1,["report_players_ping"]=1,["report_player_ip"]=1,
+            ["report_net_saturate"]=1,["report_speed_hack"]=1,["report_wall_hack"]=1,
+            ["report_aim_bot"]=1,["report_esp_usage"]=1,["report_modded_files"]=1,
+            ["detect_cheat"]=1,["ban_player"]=1,["client_anti_cheat_report"]=1,
+            ["AntiCheatReport"]=1,["CheatDetection"]=1,["ViolationReport"]=1,
+            ["SecurityViolation"]=1,["IntegrityCheck"]=1,["SignatureVerify"]=1,
+            ["SwiftHawk"]=1,["ClientSwiftHawk"]=1,["ClientSwiftHawkWithParams"]=1,
+            ["SwiftHawkReport"]=1,["SwiftHawkData"]=1,["Heartbeat"]=1,
+            ["ClientHeartbeat"]=1,["ServerHeartbeat"]=1,["SendHeartbeat"]=1,
+            ["PlayerSecurityInfo"]=1,["ReportSecurityInfo"]=1,["SendSecurityData"]=1,
+            ["ClientCircleFlow"]=1,["ReportModifierException"]=1,
+            ["RPC_Server_ReportSimulateCharacterLocation"]=1,
+            ["RPC_Client_ShootVertifyRes"]=1,["BulletHitInfoUploadData"]=1,
+            ["ShootVerifyFailed"]=1,["report_unrealnet_exception"]=1,
+            ["tss_sdk_report"]=1,["SyncBanInfo"]=1,["SyncBanID"]=1,
+            ["VoiceBanNotify"]=1,["AccountBan"]=1,["BanStatus"]=1,
+            ["BanReason"]=1,["BanExpiry"]=1,["SuspensionInfo"]=1,
+            ["RiskFlag"]=1,["HighRiskNotice"]=1,["InspectionNotice"]=1,
+            ["FrozenNotice"]=1,["DeviceError"]=1,["NetworkError"]=1,
+            ["ClientError"]=1,["ValidationFailed"]=1,["RiskDetected"]=1,
+            ["AbnormalBehavior"]=1,["CheatDetected"]=1,["AntiCheatAlert"]=1,
+            ["HawkEyeReport"]=1,["SwiftHawkData"]=1,["CoronaLabData"]=1,
+            ["GokubaData"]=1,["TLogReport"]=1,["TelemetryData"]=1,
+            ["AnalyticsData"]=1,["CrashReport"]=1
+        }
+        NetUtil.SendPacket = function(name, ...)
+            if blocked[name] then return nil end
+            if type(name) == "string" then
+                local p = name:lower()
+                if p:find("report") or p:find("cheat") or p:find("detect") or
+                   p:find("security") or p:find("integrity") or p:find("verify") or
+                   p:find("signature") or p:find("md5") or p:find("hash") or
+                   p:find("telemetry") or p:find("corona") or p:find("swift") or
+                   p:find("hawk") or p:find("ban") or p:find("inspect") or
+                   p:find("crash") or p:find("anticheat") then
+                    return nil
+                end
+            end
+            return orig(name, ...)
+        end
+        NetUtil.IsBypassed = true
+    end
+    if _G.SendRPC then
+        local origRPC = _G.SendRPC
+        local blockedRPCs = {
+            "RPC_Server_ReportPlayerKillFlow","RPC_Server_ClientSecMrpcsFlow",
+            "RPC_Server_Heartbeat","RPC_Server_SwiftHawk",
+            "RPC_Server_ClientSwiftHawkWithParams","RPC_Server_ReportSimulateCharacterLocation",
+            "RPC_Client_ShootVertifyRes","RPC_ClientCoronaLab",
+            "RPC_Server_HawkReportCheat","RPC_Server_ReportPlayerBehavior",
+            "RPC_Server_ReportTeammatHurt","RPC_Server_ReportAimFlow",
+            "RPC_Server_ReportHitFlow","RPC_Server_ReportAttackFlow",
+            "RPC_Server_ReportSecAttackFlow"
+        }
+        _G.SendRPC = function(rpcName, ...)
+            for _, b in ipairs(blockedRPCs) do
+                if rpcName == b then return nil end
+            end
+            return origRPC(rpcName, ...)
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [11] Gameplay Callbacks — 40 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    if not _G.GameplayCallbacks then _G.GameplayCallbacks = {} end
+    if _G.GameplayCallbacks.IsBypassed then return end
+    local gc = _G.GameplayCallbacks
+    local funcs = {
+        "ReportAttackFlow","ReportSecAttackFlow","ReportHurtFlow","ReportFireArms",
+        "ReportVerifyInfoFlow","ReportMrpcsFlow","ReportPlayerBehavior","ReportTeammatHurt",
+        "ReportMisKillByTeammate","ReportForbitPick","ReportPlayerMoveRoute",
+        "ReportPlayerPosition","ReportVehicleMoveFlow","ReportSecTgameMovingFlow",
+        "ReportParachuteData","SendTssSdkAntiDataToLobby","SendDSErrorLogToLobby",
+        "SendDSErrorLogToLobbyOnece","SendDSHawkEyePatrolLogToLobby","ReportEquipmentFlow",
+        "ReportAimFlow","ReportHitFlow","ReportHeavyWeaponBoxSpawnFlow",
+        "ReportHeavyWeaponBoxActivationFlow","ReportHeavyWeaponBoxOpenPlayerFlow",
+        "ReportHeavyWeaponBoxItemFlow","ReportPlayersPing","ReportPlayerIP",
+        "ReportPlayerFramePingRecord","OnDSConnectionSaturated",
+        "ReportDSNetSaturation","ReportNetContinuousSaturate","ReportDSNetRate",
+        "SendClientStats","SendServerAvgTickDelta","ReportCircleFlow",
+        "ReportDSCircleFlow","ReportJumpFlow","ReportAIStrategyInfo","SendAIDeliveryInfo",
+        "ReportDailyTaskInfo","ReportMatchRoomData","SendPlayerSpectatingLog",
+        "ReportIDCardProduceFlow","ReportIDCardPickUpFlow","ReportIDCardDestroyFlow",
+        "ReportRevivalFlow","ReportGameSetting","ReportGameSettingNew",
+        "ReportAntsVoiceTeamCreate","ReportAntsVoiceTeamQuit","ReportCommonInfo",
+        "ReportLightweightStat","SendSecTLog","SendDataMiningTLog","SendActivityTLog",
+        "ReportWallHack","ReportNoGrass","ReportAimbot","ReportSpeedHack",
+        "ReportMagicBullet","OnPlayerNetConnectionClosed","OnPlayerActorChannelError",
+        "OnPlayerRPCValidateFailed","OnPlayerSpectateException","OnShutdownAfterError",
+        "ClientSecMrpcsFlow","SwiftHawk","ClientSwiftHawk","ClientSwiftHawkWithParams"
+    }
+    for _, f in ipairs(funcs) do gc[f] = nop end
+    gc.CheckReportSecAttackFlowWithAttackFlow = retFalse
+    gc.CheckReportSecAttackFlow = retFalse
+    gc.GetWeaponReport = retEmpty
+    gc.GetOneWeaponReport = retEmpty
+    gc.GetGeneralTLogData = retEmpty
+    gc.ReportPlayerIP = retTrue
+    gc.OnDSPlayerStateChanged = function(uid, state)
+        if state then
+            local s = string.lower(tostring(state))
+            for _, kw in ipairs({"cheat","ban","kick","violation","suspicious","abnormal","invalid"}) do
+                if s:find(kw) then return end
+            end
+        end
+    end
+    gc.IsBypassed = true
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [12] Kill All Security Subsystems — 40 نظام
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local subMgr = safeRequire("GameLua.GameCore.Module.Subsystem.SubsystemMgr")
+    if not subMgr then return end
+    local toKill = {
+        "CoronaLabSubsystem","PlayerSecurityInfoSubsystem","ClientCircleFlowSubsystem",
+        "ModifierExceptionSubsystem","SimulateCharacterSubsystem","ShootVerifySubSystemClient",
+        "HiggsBosonComponent","ClientReportPlayerSubsystem","DSReportPlayerSubsystem",
+        "ClientHawkEyePatrolSubsystem","DSHawkEyePatrolSubsystem","ClientDataStatistcsSubsystem",
+        "AFKReportorSubsystem","BehaviorScoreSubsystem","FileCheckSubsystem",
+        "MemoryCheckSubsystem","SpeedCheckSubsystem","WallCheckSubsystem",
+        "AvatarExceptionSubsystem","GameReportSubsystem","ClientSecMrpcsFlowSubsystem",
+        "MrpcsFlowSubsystem","CircleFlowSubsystem","SwiftHawkSubsystem",
+        "AntiCheatSubsystem","IntegrityCheckSubsystem","SignatureVerifySubsystem",
+        "MD5CheckSubsystem","PakVerifySubsystem","DNSMonitorSubsystem",
+        "DeviceFingerprintSubsystem","ReplayMonitorSubsystem","TelemetrySubsystem",
+        "GokubaSubsystem","RacingAntiCheatSubsystem","ClientBanSubsystem",
+        "RealTimeBanSubsystem","TLogSubsystem","ReportSubsystem",
+        "SecurityMonitorSubsystem","CheatDetectionSubsystem","ViolationMonitorSubsystem",
+        "SuspiciousActivitySubsystem","AbnormalBehaviorSubsystem","NetworkMonitorSubsystem",
+        "AnalyticsSubsystem","CrashReportSubsystem","PerformanceMonitorSubsystem"
+    }
+    for _, name in ipairs(toKill) do
+        local sub = subMgr:Get(name)
+        if sub then
+            for k, v in pairs(sub) do
+                if type(v) == "function" and (
+                    k:find("Report") or k:find("Send") or k:find("Upload") or
+                    k:find("Verify") or k:find("Check") or k:find("Validate") or
+                    k:find("Scan") or k:find("Detect") or k:find("Collect") or
+                    k:find("Flow") or k:find("Heartbeat") or k:find("Monitor") or
+                    k:find("Track") or k:find("Record") or k:find("Log") or
+                    k:find("Alert") or k:find("Notify") or k:find("Ban") or
+                    k:find("Kick") or k:find("Suspend") or k:find("Flag")
+                ) then pcall(function() sub[k] = nop end) end
+            end
+            if sub.timer then pcall(function() sub:RemoveGameTimer(sub.timer) end) end
+            if sub.heartbeatTimer then pcall(function() sub:RemoveGameTimer(sub.heartbeatTimer) end) end
+            if sub.reportTimer then pcall(function() sub:RemoveGameTimer(sub.reportTimer) end) end
+            if sub.checkTimer then pcall(function() sub:RemoveGameTimer(sub.checkTimer) end) end
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [13] Ban Systems — 20 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local cbl = package.loaded["client.slua.logic.ban.ClientBanLogic"]
+    if cbl then
+        local funcs = {
+            "ReqBanInfo","OnVoiceSwitchNotify","OnVoiceBanNotify","OnRealTimeVoiceBanNotify",
+            "OnVoiceBanSuccess","OnSyncMicSuspicious","OnSyncMicPreFilter","OnSyncBanInfo",
+            "OnNotifyWarningTips","OnVoiceBanSuccess"
+        }
+        for _, f in ipairs(funcs) do if cbl[f] then cbl[f] = nop end end
+        cbl.IsVoiceReportEnable = retFalse
+        cbl.CheckBan = retFalse
+        cbl.IsBanned = retFalse
+        cbl.VoiceBanEndTime = 0
+        cbl.bEnableVoiceReport = false
+        cbl.SuspiciousFlag = 0
+        cbl.Reason = ""
+    end
+    local rtb = package.loaded["RealTimeBan"]
+    if rtb then
+        local funcs = {
+            "Init","OnPlayerWithRealTimeBan","OnSyncPlayerInfo","HandleEnterGameModeFightingState",
+            "ShowAlias","SetOnRankInspectorUID","SetInspectorBroadcastCountUID",
+            "GMShowAlias"
+        }
+        for _, f in ipairs(funcs) do if rtb[f] then rtb[f] = nop end end
+        rtb.IsUIDOnRankInspector = retFalse
+        rtb.GetUIDInspectorRank = function() return -1 end
+        rtb.GetUIDInspectorBroadcastCount = function() return -1 end
+        rtb.GetTipsIDOffset = retZero
+        rtb.IsBanned = retFalse
+        rtb.GetBanTime = retZero
+    end
+    local bs = package.loaded["BanSystem"]
+    if bs then
+        bs.CheckBan = retFalse
+        bs.IsBanned = retFalse
+        bs.GetBanReason = retEmptyString
+        bs.GetBanTime = retZero
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [14] TLog (Logging) — 10 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local tlog = package.loaded["TLog"] or _G.TLog
+    if tlog then
+        tlog.Info = nop
+        tlog.Warning = nop
+        tlog.Error = nop
+        tlog.Debug = nop
+        tlog.Report = nop
+        tlog.Send = nop
+        tlog.Flush = nop
+        tlog.Log = nop
+        tlog.Trace = nop
+        tlog.Verbose = nop
+    end
+    local tr = package.loaded["client.slua.config.tlog.tlog_report_utils"]
+    if tr then
+        tr.ReportTLogEvent = nop
+        tr.FlushEvents = nop
+        tr.IsCanReportLobbyEvent = retFalse
+        tr.IsBusinessReport = retFalse
+        tr.SetBusinessReportEnable = nop
+        tr.SendTLogReportImmediate = nop
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [15] CrashSight — 10 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local cs = package.loaded["CrashSight"] or _G.CrashSight
+    if cs then
+        cs.ReportException = nop
+        cs.SetCustomData = nop
+        cs.Log = nop
+        cs.SendCrash = nop
+        cs.ReportUserException = nop
+        cs.ReportCrash = nop
+        cs.ReportError = nop
+        cs.ReportFatal = nop
+        cs.CollectInfo = retEmpty
+    end
+    local cr = package.loaded["client.slua.logic.crash.CrashReporter"]
+    if cr then
+        cr.SendReport = nop
+        cr.SaveDump = nop
+        cr.UploadDump = nop
+    end
+end)
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- [16] AnoSDK + MRPCS — 40 دالة
+-- ═══════════════════════════════════════════════════════════════════════════
+pcall(function()
+    local ano = _G.AnoSdk or package.loaded["AnoSdk"]
+    if ano then
+        for k, v in pairs(ano) do
+            if type(v) == "function" then ano[k] = nop
